@@ -35,12 +35,17 @@ const TodoController = () => {
 
         scheduler.add( ok =>
            fortuneService( text => {        // schedule the fortune service and proceed when done
-                   newTodo.setText(text);
+                   newTodo.setText(convertInput(text));
                    ok();
                }
            )
         );
     };
+
+    const validateInput = (inputElement) => { inputElement.value.length < 3 ? 
+        inputElement.style.color = 'red': inputElement.style.color = ''
+    }
+    const convertInput = (value) => value.toUpperCase()
 
     return {
         numberOfTodos:      todoModel.count,
@@ -51,6 +56,8 @@ const TodoController = () => {
         onTodoAdd:          todoModel.onAdd,
         onTodoRemove:       todoModel.onDel,
         removeTodoRemoveListener: todoModel.removeDeleteListener, // only for the test case, not used below
+        validateInput: validateInput,
+        convertInput: convertInput,
     }
 };
 
@@ -74,6 +81,7 @@ const TodoItemsView = (todoController, rootElement) => {
 
         checkboxElement.onclick = _ => todo.setDone(checkboxElement.checked);
         deleteButton.onclick    = _ => todoController.removeTodo(todo);
+        inputElement.onkeyup = _ => todoController.validateInput(inputElement); 
 
         todoController.onTodoRemove( (removedTodo, removeMe) => {
             if (removedTodo !== todo) return;
@@ -83,7 +91,7 @@ const TodoItemsView = (todoController, rootElement) => {
             removeMe();
         } );
 
-        todo.onTextChanged(() => inputElement.value = todo.getText());
+        todo.onTextChanged(() => inputElement.value = todoController.convertInput( todo.getText()));        
 
         rootElement.appendChild(deleteButton);
         rootElement.appendChild(inputElement);
