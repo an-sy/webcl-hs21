@@ -1,11 +1,18 @@
 // stand-in for an asynchronous service
 
+// const fortunes = [
+//     "Do the WebPr Homework",
+//     "Care for the JavaScript Toolbox",
+//     "Watch the recommended videos",
+//     "Read the recommended chapters in You-dont-know-JS",
+//     "Do the dataflow excel challenge!"
+// ];
+
 const fortunes = [
-    "Do the WebPr Homework",
-    "Care for the JavaScript Toolbox",
-    "Watch the recommended videos",
-    "Read the recommended chapters in You-dont-know-JS",
-    "Do the dataflow excel challenge!"
+   "de",
+   "t",
+   "e",
+   "b"
 ];
 
 function fortuneService(whenDone) {

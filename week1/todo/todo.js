@@ -42,7 +42,7 @@ const TodoController = () => {
         );
     };
 
-    const validateInput = (inputElement) => { inputElement.value.length < 3 ? 
+    const validateInput = (inputElement) => { inputElement.value.length < 4 ? 
         inputElement.style.color = 'red': inputElement.style.color = ''
     }
     const convertInput = (value) => value.toUpperCase()
@@ -81,7 +81,15 @@ const TodoItemsView = (todoController, rootElement) => {
 
         checkboxElement.onclick = _ => todo.setDone(checkboxElement.checked);
         deleteButton.onclick    = _ => todoController.removeTodo(todo);
-        inputElement.onkeyup = _ => todoController.validateInput(inputElement); 
+        inputElement.onkeyup = _ => {
+            todoController.validateInput(inputElement);
+            let start = event.target.selectionStart;
+            let end = event.target.selectionEnd;
+            event.target.value = todoController.convertInput(event.target.value)
+            event.setSelectionRange(start,end)
+
+            todoController.validateInput(inputElement); }
+
 
         todoController.onTodoRemove( (removedTodo, removeMe) => {
             if (removedTodo !== todo) return;
